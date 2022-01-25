@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import getInfo from '../helpers/getInfo';
 import ApiClimaInfo from './ApiClimaInfo';
 
 const ApiClima =  () => {
@@ -7,13 +8,16 @@ const ApiClima =  () => {
     const [tempInfo, setTempInfo]= useState({});
 
 
-    const getWeatherInfo = async ()=> {
+    const getWeatherInfo =  ()=> {
         try {
             
             //ahora realizamos la consulta a la API
-            const url =`https://api.openweathermap.org/data/2.5/weather?q=${searchTemp}&units=metric&appid=8515c539c407dca9858087bb1dc4167b&lang=ES`
-            let respuesta = await fetch(url);
-            let data = await respuesta.json();
+            getInfo(searchTemp)
+            .then((data)=>{
+                
+
+            })
+
             const { temp, humidity, pressure }=data?.main;
             const { description } = data.weather[0];
             const { name }= data;
@@ -60,7 +64,7 @@ useEffect(()=>{
   </div>
 {/* 
   Aqui debo de cargar un componente nuevo con los datos recogidos de la API  */}
-  
+
 <ApiClimaInfo{... tempInfo}/>
 </>
 );
